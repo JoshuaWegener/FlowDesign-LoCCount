@@ -43,7 +43,7 @@ namespace LoCCount
                     continue;
                 }
 
-                if (!Kommentarzeile(zeile))
+                if (KeineKommentarzeile(zeile))
                     codeZeilen++;
 
                 zeilen++;
@@ -57,9 +57,9 @@ namespace LoCCount
             };
         }
 
-        private static bool Kommentarzeile(string zeile)
+        private static bool KeineKommentarzeile(string zeile)
         {
-            return zeile.TrimStart().StartsWith("//");
+            return !zeile.TrimStart().StartsWith("//");
         }
     }
 }
