@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 
 namespace LoCCount
 {
@@ -12,7 +13,9 @@ namespace LoCCount
 
             var dateiFinder = new DateiFinder(startVerzeichnis);
 
-            var dateien = dateiFinder.AlleDateienImVerzeichnis();
+            var dateinamen = dateiFinder.AlleDateienImVerzeichnis();
+
+            var analyse = DateiAnalysierer.AlleDateien(dateinamen).ToList();
         }
     }
 }

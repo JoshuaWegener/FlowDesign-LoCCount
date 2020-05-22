@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0022: Use expression body for methods
+csharp_style_expression_bodied_methods = false:warning
+
+# IDE0021: Use expression body for constructors
+csharp_style_expression_bodied_constructors = false:warning
