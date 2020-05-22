@@ -9,9 +9,7 @@ namespace LoCCount
     {
         private static void Main(string[] args)
         {
-            var arg = @"D:\FlowDesign\LoCCount\";
-
-            var startVerzeichnis = LeseArgumente(arg);
+            var startVerzeichnis = LeseArgumente(args);
 
             var dateinamen = LeseDateinamen(startVerzeichnis);
 
@@ -50,13 +48,13 @@ namespace LoCCount
             var dateiFinder = new DateiFinder(startVerzeichnis);
 
             var dateinamen = dateiFinder.AlleDateienImVerzeichnis();
+
             return dateinamen;
         }
 
-        private static DirectoryInfo LeseArgumente(string arg)
+        private static DirectoryInfo LeseArgumente(string[] args)
         {
-
-            var startVerzeichnis = new DirectoryInfo(arg);
+            var startVerzeichnis = new DirectoryInfo(args[0]);
             return startVerzeichnis;
         }
     }
