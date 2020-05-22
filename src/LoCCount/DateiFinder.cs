@@ -25,7 +25,7 @@ namespace LoCCount
                 dateien.AddRange(unterverzeichnis.GetFiles());
             }
 
-            var dateinamen = dateien.Select(datei => datei.FullName);
+            var dateinamen = dateien.Where(datei => datei.FullName.EndsWith(".cs")).Select(datei => datei.FullName);
 
             return dateinamen;
         }
