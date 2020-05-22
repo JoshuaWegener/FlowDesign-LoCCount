@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace LoCCount
 {
-    internal class DateiAnalysierer
+    internal static class DateiAnalysierer
     {
-        public static IEnumerable<Locstat> AlleDateien(IEnumerable<string> dateinamen)
+        public static IEnumerable<Locstat> AlleDateien(IEnumerable<string> dateinamen,
+            Action<IEnumerable<Locstat>> ausgabe)
         {
             var ergebnis = new List<Locstat>();
 
@@ -17,6 +19,8 @@ namespace LoCCount
 
                 ergebnis.Add(analyse);
             }
+
+            ausgabe(ergebnis);
 
             return ergebnis;
         }

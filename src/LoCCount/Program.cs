@@ -13,34 +13,42 @@ namespace LoCCount
 
             var dateinamen = LeseDateinamen(startVerzeichnis);
 
-            var analyse = AnalysiereDateien(dateinamen);
+            void AusgabeAlle(IEnumerable<Locstat> locstats) => KommandozeilenAusgabe(locstats);
 
-            KommandozeilenAusgabe(analyse);
+            var analyse = AnalysiereDateien(dateinamen, AusgabeAlle);
+
+            void AusgabeGesamt(int zeilen, int codeZeilen)
+            {
+                Console.WriteLine($"Gesamt: Zeilen:{zeilen} | Code Zeilen:{codeZeilen}");
+
+                Console.WriteLine("Beliebige Taste drücken...");
+                Console.ReadKey();
+            }
+
+            SummiereLocstats(analyse, AusgabeGesamt);
+        }
+
+        private static void SummiereLocstats(IEnumerable<Locstat> analyse, Action<int, int> ausgabeGesamt)
+        {
+            var zeilen = analyse.Sum(datei => datei.AnzahlZeilen);
+            var codeZeilen = analyse.Sum(datei => datei.AnzahlCodeZeilen);
+
+            ausgabeGesamt(zeilen, codeZeilen);
         }
 
         private static void KommandozeilenAusgabe(IEnumerable<Locstat> analyse)
         {
             foreach (var locstat in analyse)
             {
-                Console.WriteLine($"{locstat.Dateiname}: Zeilen:{locstat.AnzahlZeilen} | Code Zeilen:{locstat.AnzahlCodeZeilen}");
+                Console.WriteLine(
+                    $"{locstat.Dateiname}: Zeilen:{locstat.AnzahlZeilen} | Code Zeilen:{locstat.AnzahlCodeZeilen}");
             }
-
-            Console.WriteLine("Beliebige Taste drücken...");
-            Console.ReadKey();
         }
 
-        private static IEnumerable<Locstat> AnalysiereDateien(IEnumerable<string> dateinamen)
+        private static IEnumerable<Locstat> AnalysiereDateien(IEnumerable<string> dateinamen,
+            Action<IEnumerable<Locstat>> ausgabe)
         {
-            var analyse = DateiAnalysierer.AlleDateien(dateinamen).ToList();
-
-            analyse.Add(new Locstat
-            {
-                Dateiname = "Gesamt",
-                AnzahlCodeZeilen = analyse.Sum(datei => datei.AnzahlCodeZeilen),
-                AnzahlZeilen = analyse.Sum(datei => datei.AnzahlZeilen)
-            });
-
-            return analyse;
+            return DateiAnalysierer.AlleDateien(dateinamen, ausgabe).ToList();
         }
 
         private static IEnumerable<string> LeseDateinamen(DirectoryInfo startVerzeichnis)
